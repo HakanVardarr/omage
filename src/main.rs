@@ -18,8 +18,8 @@ const CONFIG: Config = Config {
 fn main() -> Result<(), Box<dyn Error>> {
     let mut image_buffer = Buffer::new().config(CONFIG).build()?;
 
-    let row = 10;
-    let col = 10;
+    let row = 8;
+    let col = 8;
     let rheight = HEIGHT / row;
     let rwidth = WIDTH / col;
     let mut color: Rgb<u8>;
@@ -38,8 +38,8 @@ fn main() -> Result<(), Box<dyn Error>> {
                 piece = Rgb([30, 30, 30]);
             }
             image_buffer.draw_rect(x * rwidth, y * rheight, rwidth, rheight, color);
-            if y < 2 || y > 7 {
-                image_buffer.draw_circle(x * rwidth + 50, y * rheight + 50, 40, piece);
+            if y < 2 || y > 5 {
+                image_buffer.draw_circle(x * rwidth + 62, y * rheight + 62, 50, piece);
             }
         }
     }
