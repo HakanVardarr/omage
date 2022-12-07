@@ -35,7 +35,7 @@ fn main() -> Result<(), Box<dyn Error>> {
             } else {
                 rcolor = Rgb([118, 150, 86]);
                 color = Rgb([238, 238, 210]);
-                piece = Rgb([30, 30, 30]);
+                piece = Rgb([30, 30, 31]);
             }
             image_buffer.draw_rect(x * rwidth, y * rheight, rwidth, rheight, color);
             if y < 2 || y > 5 {
