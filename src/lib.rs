@@ -90,7 +90,6 @@ impl Buffer {
             }
         }
     }
-
     pub fn draw_line(&mut self, x1: u32, y1: u32, x2: u32, y2: u32, w: u32, color: Rgb<u8>) {
         if let Some(config) = self.config {
             let content = self.content.as_mut().unwrap();
@@ -159,7 +158,6 @@ impl Buffer {
             }
         }
     }
-
     pub fn save(&self) -> Result<(), Box<dyn Error>> {
         if let Some(buffer) = self.content.clone() {
             let config = self.config.expect("ERROR: No config");
