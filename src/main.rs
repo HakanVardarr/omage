@@ -1,9 +1,13 @@
 #![allow(unused)]
 
+use buffer::Buffer;
 use image::ImageBuffer;
 use image::Rgb;
-use rimage::{Buffer, Config};
+use rimage::components::{Circle, Component, Rectangle};
+use rimage::config::Config;
 use std::error::Error;
+
+mod buffer;
 
 const HEIGHT: u32 = 1000;
 const WIDTH: u32 = 1000;
@@ -11,53 +15,22 @@ const WIDTH: u32 = 1000;
 const CONFIG: Config = Config {
     width: WIDTH,
     height: HEIGHT,
-    color: Rgb([0, 0, 255]),
+    color: Rgb([255, 255, 255]),
     path: "output.png",
 };
 
 fn main() -> Result<(), Box<dyn Error>> {
-    let mut image_buffer = Buffer::new().config(CONFIG).build()?;
+    let rect1 = Rectangle::new(600, 600, 200, 200, Rgb([0, 255, 0]));
+    let rect2 = Rectangle::new(500, 500, 250, 250, Rgb([0, 0, 255]));
+    let circ = Circle::new(500, 500, 150, Rgb([0, 0, 0]));
 
-    let row = 8;
-    let col = 8;
-    let rheight = HEIGHT / row;
-    let rwidth = WIDTH / col;
-    let mut color: Rgb<u8>;
-    let mut rcolor: Rgb<u8>;
-    let mut piece: Rgb<u8>;
-
-    for y in 0..row {
-        for x in 0..col {
-            if ((x + y) % 2 == 0) {
-                color = Rgb([118, 150, 86]);
-                rcolor = Rgb([238, 238, 210]);
-                piece = Rgb([255, 255, 255]);
-            } else {
-                rcolor = Rgb([118, 150, 86]);
-                color = Rgb([238, 238, 210]);
-                piece = Rgb([30, 30, 31]);
-            }
-            image_buffer.draw_rect(x * rwidth, y * rheight, rwidth, rheight, color);
-            image_buffer.draw_line(
-                x * rwidth,
-                y * rheight,
-                (x + 1) * rwidth,
-                (y + 1) * rheight,
-                5,
-                Rgb([0, 0, 0]),
-            );
-            image_buffer.draw_line(
-                (x + 1) * rwidth,
-                y * rheight,
-                x * rwidth,
-                (y + 1) * rheight,
-                5,
-                Rgb([0, 0, 0]),
-            )
-        }
-    }
-
-    image_buffer.save()?;
+    let image = Buffer::new()
+        .config(CONFIG)
+        .init()
+        .add_component(Box::new(rect1))
+        .add_component(Box::new(rect2))
+        .add_component(Box::new(circ))
+        .draw();
 
     Ok(())
 }
