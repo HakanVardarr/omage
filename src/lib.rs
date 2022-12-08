@@ -90,6 +90,76 @@ impl Buffer {
             }
         }
     }
+
+    pub fn draw_line(&mut self, x1: u32, y1: u32, x2: u32, y2: u32, w: u32, color: Rgb<u8>) {
+        if let Some(config) = self.config {
+            let content = self.content.as_mut().unwrap();
+            let dx: f32 = x2 as f32 - x1 as f32;
+            let dy: f32 = y2 as f32 - y1 as f32;
+
+            if dx != 0.0 {
+                let k: f32 = dy / dx;
+                let c: f32 = y1 as f32 - (k * x1 as f32);
+
+                if k == 0.0 {
+                    for x in x1..x2 {
+                        for y in y1..y1 + w {
+                            content.put_pixel(x, y, color);
+                        }
+                    }
+                } else {
+                    if x1 > x2 {
+                        for x in x2..x1 {
+                            for x1 in x..x + w {
+                                let y1 = k * x as f32 + c;
+                                let y2 = k * (x + 1) as f32 + c;
+
+                                for y in y2 as u32..y1 as u32 {
+                                    if x1 < config.width && y < config.height {
+                                        content.put_pixel(x1, y as u32, color);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    if x2 > x1 {
+                        for x in x1..x2 {
+                            for x1 in x..x + w {
+                                let y1 = k * x as f32 + c;
+                                let y2 = k * (x + 1) as f32 + c;
+
+                                for y in y1 as u32..y2 as u32 {
+                                    if x1 < config.width && y < config.height {
+                                        content.put_pixel(x1, y as u32, color);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            } else {
+                if y1 > y2 {
+                    for y in y2..y1 {
+                        for x in x1..x1 + w {
+                            if x < config.width && y < config.height {
+                                content.put_pixel(x, y, color);
+                            }
+                        }
+                    }
+                }
+                if y2 > y1 {
+                    for y in y1..y2 {
+                        for x in x1..x1 + w {
+                            if x < config.width && y < config.height {
+                                content.put_pixel(x, y, color);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     pub fn save(&self) -> Result<(), Box<dyn Error>> {
         if let Some(buffer) = self.content.clone() {
             let config = self.config.expect("ERROR: No config");

@@ -38,9 +38,22 @@ fn main() -> Result<(), Box<dyn Error>> {
                 piece = Rgb([30, 30, 31]);
             }
             image_buffer.draw_rect(x * rwidth, y * rheight, rwidth, rheight, color);
-            if y < 2 || y > 5 {
-                image_buffer.draw_circle(x * rwidth + 62, y * rheight + 62, 50, piece);
-            }
+            image_buffer.draw_line(
+                x * rwidth,
+                y * rheight,
+                (x + 1) * rwidth,
+                (y + 1) * rheight,
+                5,
+                Rgb([0, 0, 0]),
+            );
+            image_buffer.draw_line(
+                (x + 1) * rwidth,
+                y * rheight,
+                x * rwidth,
+                (y + 1) * rheight,
+                5,
+                Rgb([0, 0, 0]),
+            )
         }
     }
 
