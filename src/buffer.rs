@@ -30,6 +30,8 @@ impl Buffer {
                     }
                 }
             }
+        } else {
+            eprintln!("ERROR: You need to provide config!");
         }
 
         self
@@ -39,6 +41,17 @@ impl Buffer {
             components.push(component);
         } else {
             self.components = Some(vec![component]);
+        }
+
+        self
+    }
+    pub fn add_components(&mut self, components: Vec<Box<dyn Component>>) -> &mut Buffer {
+        if let Some(components_list) = &mut self.components {
+            for component in components {
+                components_list.push(component);
+            }
+        } else {
+            self.components = Some(components);
         }
 
         self
@@ -54,6 +67,8 @@ impl Buffer {
                     buffer.save(config.path);
                 }
             }
+        } else {
+            eprintln!("ERROR: You need to provide config!");
         }
     }
 }

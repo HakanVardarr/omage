@@ -20,16 +20,32 @@ const CONFIG: Config = Config {
 };
 
 fn main() -> Result<(), Box<dyn Error>> {
-    let rect1 = Rectangle::new(600, 600, 200, 200, Rgb([0, 255, 0]));
-    let rect2 = Rectangle::new(500, 500, 250, 250, Rgb([0, 0, 255]));
-    let circ = Circle::new(500, 500, 150, Rgb([0, 0, 0]));
+    let mut components: Vec<Box<dyn Component>> = vec![];
 
-    let image = Buffer::new()
+    let row = 10;
+    let col = 10;
+    let rheight = HEIGHT / row;
+    let rwidth = WIDTH / col;
+    let mut color;
+
+    for y in 0..row {
+        for x in 0..col {
+            if ((x + y) % 2) == 0 {
+                color = Rgb([0, 0, 0]);
+            } else {
+                color = Rgb([255, 255, 255]);
+            }
+
+            let rectangle = Rectangle::new(rheight, rwidth, rwidth * x, rheight * y, color);
+
+            components.push(Box::new(rectangle));
+        }
+    }
+
+    let mut image = Buffer::new()
         .config(CONFIG)
         .init()
-        .add_component(Box::new(rect1))
-        .add_component(Box::new(rect2))
-        .add_component(Box::new(circ))
+        .add_components(components)
         .draw();
 
     Ok(())
