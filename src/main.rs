@@ -42,7 +42,7 @@ fn main() -> Result<(), Box<dyn Error>> {
         }
     }
 
-    let line = Line::new(1000, 100, 0, 1000, 50, Rgb([255, 0, 0]));
+    let line = Line::new(1000, 100, 0, 0, 500, Rgb([255, 0, 0]));
 
     let mut image = Buffer::new()
         .config(CONFIG)
