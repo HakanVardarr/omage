@@ -3,7 +3,7 @@
 use buffer::Buffer;
 use image::ImageBuffer;
 use image::Rgb;
-use rimage::components::{Circle, Component, Rectangle};
+use rimage::components::{Circle, Component, Line, Rectangle};
 use rimage::config::Config;
 use std::error::Error;
 
@@ -42,10 +42,13 @@ fn main() -> Result<(), Box<dyn Error>> {
         }
     }
 
+    let line = Line::new(1000, 100, 0, 1000, 50, Rgb([255, 0, 0]));
+
     let mut image = Buffer::new()
         .config(CONFIG)
         .init()
         .add_components(components)
+        .add_component(Box::new(line))
         .draw();
 
     Ok(())

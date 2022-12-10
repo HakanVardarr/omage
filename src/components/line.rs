@@ -1,0 +1,96 @@
+use std::borrow::BorrowMut;
+
+use super::{Component, Config, CustomError, Error, ImageBuffer, Rgb};
+
+pub struct Line {
+    x1: u32,
+    y1: u32,
+    x2: u32,
+    y2: u32,
+    w: u32,
+    color: Rgb<u8>,
+}
+
+impl Line {
+    pub fn new(x1: u32, y1: u32, x2: u32, y2: u32, w: u32, color: Rgb<u8>) -> Line {
+        Line {
+            x1,
+            y1,
+            x2,
+            y2,
+            w,
+            color,
+        }
+    }
+}
+
+impl Component for Line {
+    fn draw(
+        &self,
+        config: Config,
+        buffer: &mut ImageBuffer<Rgb<u8>, Vec<u8>>,
+    ) -> Result<(), Box<dyn Error>> {
+        let mut x1 = self.x1.clone();
+        let mut x2 = self.x2.clone();
+        let mut y1 = self.y1.clone();
+        let mut y2 = self.y2.clone();
+
+        let dx: f32 = self.x2 as f32 - self.x1 as f32;
+        let dy: f32 = self.y2 as f32 - self.y1 as f32;
+
+        if dx != 0.0 {
+            let k: f32 = dy / dx;
+            let c: f32 = self.y1 as f32 - (k * self.x1 as f32);
+
+            if x2 < x1 {
+                x1 = self.x2;
+                x2 = self.x1;
+            }
+
+            if k == 0.0 {
+                for x in x1..x2 {
+                    for y in self.y1..self.y1 + self.w {
+                        buffer.put_pixel(x, y, self.color);
+                    }
+                }
+            } else {
+                for x in x1..x2 {
+                    for wx in x..x + self.w {
+                        let by1 = k * x as f32 + c;
+                        let by2 = k * (x + 1) as f32 + c;
+
+                        if by1 > by2 {
+                            for y in by2 as u32..by1 as u32 {
+                                if wx < config.width && y < config.height {
+                                    buffer.put_pixel(wx, y as u32, self.color);
+                                }
+                            }
+                        }
+                        if by2 > by1 {
+                            for y in by1 as u32..by2 as u32 {
+                                if wx < config.width && y < config.height {
+                                    buffer.put_pixel(wx, y as u32, self.color);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        } else {
+            if y2 < y1 {
+                y1 = self.y2;
+                y2 = self.y1;
+            }
+
+            for y in y1..y2 {
+                for x in x1..x1 + self.w {
+                    if x < config.width && y < config.height {
+                        buffer.put_pixel(x, y, self.color);
+                    }
+                }
+            }
+        }
+
+        Ok(())
+    }
+}

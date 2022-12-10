@@ -4,10 +4,12 @@ use crate::config::Config;
 use crate::error::CustomError;
 pub use circle::Circle;
 use image::{ImageBuffer, Rgb, RgbImage};
+pub use line::Line;
 pub use rectangle::Rectangle;
 use std::error::Error;
 
 mod circle;
+mod line;
 mod rectangle;
 
 pub trait Component {
