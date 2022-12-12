@@ -1,6 +1,7 @@
 use super::*;
 use image::Rgb;
 use image::RgbImage;
+use rimage::error::CustomError;
 
 pub struct Buffer {
     config: Option<Config>,
@@ -20,7 +21,7 @@ impl Buffer {
         self.config = Some(config);
         self
     }
-    pub fn init(&mut self) -> &mut Buffer {
+    pub fn init(&mut self) -> Result<&mut Buffer, Box<dyn Error>> {
         if let Some(config) = self.config {
             self.image_buffer = Some(RgbImage::new(config.width, config.height));
             if let Some(buffer) = &mut self.image_buffer {
@@ -31,10 +32,10 @@ impl Buffer {
                 }
             }
         } else {
-            eprintln!("ERROR: You need to provide config!");
+            return Err(Box::new(CustomError::NoConfigProvided));
         }
 
-        self
+        Ok(self)
     }
     pub fn add_component(&mut self, component: Box<dyn Component>) -> &mut Buffer {
         if let Some(components) = &mut self.components {
@@ -56,7 +57,7 @@ impl Buffer {
 
         self
     }
-    pub fn draw(&self) {
+    pub fn draw(&self) -> Result<(), Box<dyn Error>> {
         if let Some(components) = &self.components {
             if let Some(config) = self.config {
                 if let Some(buffer) = self.image_buffer.to_owned().as_mut() {
@@ -66,9 +67,12 @@ impl Buffer {
                     }
                     buffer.save(config.path);
                 }
+                return Ok(());
+            } else {
+                return Err(Box::new(CustomError::NoConfigProvided));
             }
         } else {
-            eprintln!("ERROR: You need to provide config!");
+            return Err(Box::new(CustomError::ThereIsNoComponent));
         }
     }
 }

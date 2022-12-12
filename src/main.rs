@@ -11,6 +11,8 @@ mod buffer;
 
 const HEIGHT: u32 = 1000;
 const WIDTH: u32 = 1000;
+const RED: Rgb<u8> = Rgb([255, 0, 0]);
+const BLACK: Rgb<u8> = Rgb([0, 0, 0]);
 
 const CONFIG: Config = Config {
     width: WIDTH,
@@ -31,9 +33,9 @@ fn main() -> Result<(), Box<dyn Error>> {
     for y in 0..row {
         for x in 0..col {
             if ((x + y) % 2) == 0 {
-                color = Rgb([0, 0, 0]);
+                color = RED;
             } else {
-                color = Rgb([255, 255, 255]);
+                color = BLACK;
             }
 
             let rectangle = Rectangle::new(rheight, rwidth, rwidth * x, rheight * y, color);
@@ -42,14 +44,10 @@ fn main() -> Result<(), Box<dyn Error>> {
         }
     }
 
-    let line = Line::new(1000, 100, 0, 0, 500, Rgb([255, 0, 0]));
+    let mut buffer = Buffer::new();
 
-    let mut image = Buffer::new()
-        .config(CONFIG)
-        .init()
-        .add_components(components)
-        .add_component(Box::new(line))
-        .draw();
+    let image = buffer.config(CONFIG).init()?.add_components(components);
+    image.draw()?;
 
     Ok(())
 }
