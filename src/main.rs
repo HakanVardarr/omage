@@ -9,44 +9,48 @@ use std::error::Error;
 
 mod buffer;
 
-const HEIGHT: u32 = 1000;
-const WIDTH: u32 = 1000;
+const HEIGHT: u32 = 1080;
+const WIDTH: u32 = 1920;
 const RED: Rgb<u8> = Rgb([255, 0, 0]);
 const BLACK: Rgb<u8> = Rgb([0, 0, 0]);
+const PURPLE: Rgb<u8> = Rgb([150, 0, 150]);
+const GREEN: Rgb<u8> = Rgb([0, 255, 0]);
 
 const CONFIG: Config = Config {
     width: WIDTH,
     height: HEIGHT,
-    color: Rgb([255, 255, 255]),
+    color: BLACK,
     path: "output.png",
 };
 
 fn main() -> Result<(), Box<dyn Error>> {
-    let mut components: Vec<Box<dyn Component>> = vec![];
-
-    let row = 10;
-    let col = 10;
-    let rheight = HEIGHT / row;
-    let rwidth = WIDTH / col;
-    let mut color;
-
-    for y in 0..row {
-        for x in 0..col {
-            if ((x + y) % 2) == 0 {
-                color = RED;
-            } else {
-                color = BLACK;
-            }
-
-            let rectangle = Rectangle::new(rheight, rwidth, rwidth * x, rheight * y, color);
-
-            components.push(Box::new(rectangle));
-        }
-    }
-
     let mut buffer = Buffer::new();
 
-    let image = buffer.config(CONFIG).init()?.add_components(components);
+    let image = buffer
+        .config(CONFIG)
+        .init()?
+        .add_component(Box::new(Line::new(0, 0, CONFIG.width, CONFIG.height, RED)))
+        .add_component(Box::new(Line::new(
+            CONFIG.width / 2,
+            0,
+            CONFIG.width / 2,
+            CONFIG.height,
+            PURPLE,
+        )))
+        .add_component(Box::new(Line::new(
+            0,
+            CONFIG.height,
+            CONFIG.width,
+            0,
+            GREEN,
+        )))
+        .add_component(Box::new(Line::new(
+            0,
+            CONFIG.height / 2,
+            CONFIG.width,
+            CONFIG.height / 2,
+            Rgb([255, 255, 255]),
+        )));
     image.draw()?;
 
     Ok(())
