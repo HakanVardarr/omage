@@ -29,29 +29,13 @@ fn main() -> Result<(), Box<dyn Error>> {
     let image = buffer
         .config(CONFIG)
         .init()?
-        .add_component(Box::new(Line::new(0, 0, CONFIG.width, CONFIG.height, RED)))
-        .add_component(Box::new(Line::new(
+        .add_component(Box::new(Circle::new(
             CONFIG.width / 2,
-            0,
-            CONFIG.width / 2,
-            CONFIG.height,
+            CONFIG.height / 2,
+            100,
             PURPLE,
         )))
-        .add_component(Box::new(Line::new(
-            0,
-            CONFIG.height,
-            CONFIG.width,
-            0,
-            GREEN,
-        )))
-        .add_component(Box::new(Line::new(
-            0,
-            CONFIG.height / 2,
-            CONFIG.width,
-            CONFIG.height / 2,
-            Rgb([255, 255, 255]),
-        )));
-    image.draw()?;
+        .draw()?;
 
     Ok(())
 }
