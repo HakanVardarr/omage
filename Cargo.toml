@@ -1,6 +1,6 @@
 [package]
 name = "omage"
-version = "0.2.0"
+version = "0.2.1"
 edition = "2021"
 authors = ["Hakan Vardar"]
 description = "`rimage` is a Rust library for image processing. It provides functionality for handling images, drawing basic shapes, and configuring image properties."
