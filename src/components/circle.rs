@@ -1,4 +1,6 @@
-use super::{ComponentTrait, Config, CustomError, Error, ImageBuffer, Rgb};
+use image::Pixel;
+
+use super::{ComponentTrait, Config, CustomError, Error, ImageBuffer, Rgba};
 
 /// Represents a circle component with a specified center (`cx`, `cy`), radius (`r`), and color.
 #[derive(Clone, Copy)]
@@ -9,13 +11,13 @@ pub struct Circle {
     cy: u32,
     /// Radius of the circle.
     r: u32,
-    /// Color of the circle in RGB format.
-    color: Rgb<u8>,
+    /// Color of the circle in Rgba format.
+    color: Rgba<u8>,
 }
 
 impl Circle {
     /// Creates a new circle with the specified parameters.
-    pub fn new(cx: u32, cy: u32, r: u32, color: Rgb<u8>) -> Self {
+    pub fn new(cx: u32, cy: u32, r: u32, color: Rgba<u8>) -> Self {
         Self { cx, cy, r, color }
     }
 }
@@ -34,7 +36,7 @@ impl ComponentTrait for Circle {
     fn draw(
         &self,
         config: Config,
-        buffer: &mut ImageBuffer<Rgb<u8>, Vec<u8>>,
+        buffer: &mut ImageBuffer<Rgba<u8>, Vec<u8>>,
     ) -> Result<(), Box<dyn Error>> {
         let x1 = self.cx - self.r;
         let x2 = self.cx + self.r;
@@ -51,7 +53,7 @@ impl ComponentTrait for Circle {
                 let dy: i32 = y as i32 - self.cy as i32;
 
                 if dx * dx + dy * dy < self.r as i32 * self.r as i32 {
-                    buffer.put_pixel(x, y, self.color);
+                    buffer.get_pixel_mut(x, y).blend(&self.color);
                 }
             }
         }

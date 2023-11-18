@@ -1,4 +1,6 @@
-use super::{ComponentTrait, Config, CustomError, Error, ImageBuffer, Rgb};
+use image::Pixel;
+
+use super::{ComponentTrait, Config, CustomError, Error, ImageBuffer, Rgba};
 
 /// Represents a rectangle component with a specified height (`h`), width (`w`), position (`(x, y)`), and color.
 #[derive(Clone, Copy)]
@@ -11,13 +13,13 @@ pub struct Rectangle {
     x: u32,
     /// Y-coordinate of the top-left corner of the rectangle.
     y: u32,
-    /// Color of the rectangle in RGB format.
-    color: Rgb<u8>,
+    /// Color of the rectangle in Rgba format.
+    color: Rgba<u8>,
 }
 
 impl Rectangle {
     /// Creates a new rectangle with the specified parameters.
-    pub fn new(h: u32, w: u32, x: u32, y: u32, color: Rgb<u8>) -> Self {
+    pub fn new(h: u32, w: u32, x: u32, y: u32, color: Rgba<u8>) -> Self {
         Self { h, w, x, y, color }
     }
 }
@@ -36,7 +38,7 @@ impl ComponentTrait for Rectangle {
     fn draw(
         &self,
         config: Config,
-        buffer: &mut ImageBuffer<Rgb<u8>, Vec<u8>>,
+        buffer: &mut ImageBuffer<Rgba<u8>, Vec<u8>>,
     ) -> Result<(), Box<dyn Error>> {
         for x in self.x..self.x + self.w {
             if x > config.width {
@@ -46,7 +48,7 @@ impl ComponentTrait for Rectangle {
                 if y > config.height {
                     return Err(Box::new(CustomError::OutOfCanvas));
                 }
-                buffer.put_pixel(x, y, self.color);
+                buffer.get_pixel_mut(x, y).blend(&self.color)
             }
         }
 

@@ -1,12 +1,12 @@
-use image::Rgb;
+use image::Rgba;
 
 /// Represents the RGB color red.
-pub const RED: Rgb<u8> = Rgb([255, 0, 0]);
+pub const RED: Rgba<u8> = Rgba([255, 0, 0, 255]);
 /// Represents the RGB color black.
-pub const BLACK: Rgb<u8> = Rgb([0, 0, 0]);
+pub const BLACK: Rgba<u8> = Rgba([0, 0, 0, 255]);
 /// Represents the RGB color purple.
-pub const PURPLE: Rgb<u8> = Rgb([150, 0, 150]);
+pub const PURPLE: Rgba<u8> = Rgba([150, 0, 150, 255]);
 /// Represents the RGB color green.
-pub const GREEN: Rgb<u8> = Rgb([0, 255, 0]);
+pub const GREEN: Rgba<u8> = Rgba([0, 255, 0, 255]);
 /// Represents the RGB color white.
-pub const WHITE: Rgb<u8> = Rgb([255, 255, 255]);
+pub const WHITE: Rgba<u8> = Rgba([255, 255, 255, 255]);

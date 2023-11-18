@@ -3,7 +3,7 @@
 use crate::config::Config;
 use crate::error::CustomError;
 use circle::Circle;
-use image::{ImageBuffer, Rgb, RgbImage};
+use image::{ImageBuffer, Rgba, RgbaImage};
 use line::Line;
 use rectangle::Rectangle;
 use std::error::Error;
@@ -27,7 +27,7 @@ pub trait ComponentTrait {
     fn draw(
         &self,
         config: Config,
-        buffer: &mut ImageBuffer<Rgb<u8>, Vec<u8>>,
+        buffer: &mut ImageBuffer<Rgba<u8>, Vec<u8>>,
     ) -> Result<(), Box<dyn Error>>;
 }
 
@@ -41,8 +41,8 @@ pub enum Component {
         cy: u32,
         /// Radius of the circle.
         r: u32,
-        /// Color of the circle in RGB format.
-        color: Rgb<u8>,
+        /// Color of the circle in Rgba format.
+        color: Rgba<u8>,
     },
     /// Represents a rectangle component.
     Rectangle {
@@ -54,8 +54,8 @@ pub enum Component {
         x: u32,
         /// Y-coordinate of the top-left corner of the rectangle.
         y: u32,
-        /// Color of the rectangle in RGB format.
-        color: Rgb<u8>,
+        /// Color of the rectangle in Rgba format.
+        color: Rgba<u8>,
     },
     /// Represents a line component.
     Line {
@@ -67,8 +67,8 @@ pub enum Component {
         x2: u32,
         /// Y-coordinate of the ending point of the line.
         y2: u32,
-        /// Color of the line in RGB format.
-        color: Rgb<u8>,
+        /// Color of the line in Rgba format.
+        color: Rgba<u8>,
     },
 }
 
@@ -77,17 +77,17 @@ pub struct Components;
 
 impl Components {
     /// Creates a new circle component.
-    pub fn Circle(cx: u32, cy: u32, r: u32, color: Rgb<u8>) -> Component {
+    pub fn Circle(cx: u32, cy: u32, r: u32, color: Rgba<u8>) -> Component {
         Component::Circle { cx, cy, r, color }
     }
 
     /// Creates a new rectangle component.
-    pub fn Rectangle(h: u32, w: u32, x: u32, y: u32, color: Rgb<u8>) -> Component {
+    pub fn Rectangle(h: u32, w: u32, x: u32, y: u32, color: Rgba<u8>) -> Component {
         Component::Rectangle { h, w, x, y, color }
     }
 
     /// Creates a new line component.
-    pub fn Line(x1: u32, y1: u32, x2: u32, y2: u32, color: Rgb<u8>) -> Component {
+    pub fn Line(x1: u32, y1: u32, x2: u32, y2: u32, color: Rgba<u8>) -> Component {
         Component::Line {
             x1,
             y1,
@@ -102,7 +102,7 @@ impl ComponentTrait for Component {
     fn draw(
         &self,
         config: Config,
-        buffer: &mut ImageBuffer<Rgb<u8>, Vec<u8>>,
+        buffer: &mut ImageBuffer<Rgba<u8>, Vec<u8>>,
     ) -> Result<(), Box<dyn Error>> {
         match *self {
             Component::Circle { cx, cy, r, color } => {
