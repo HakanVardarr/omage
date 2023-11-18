@@ -10,5 +10,5 @@ mod images;
 
 pub use components::Components;
 pub use config::Config;
-pub use image::Rgb;
+pub use image::Rgba;
 pub use images::Image;

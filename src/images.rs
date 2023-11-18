@@ -1,13 +1,13 @@
 use crate::components::ComponentTrait;
 
 use super::{components::Component, config::Config, error::CustomError};
-use image::{ImageBuffer, Rgb, RgbImage};
+use image::{ImageBuffer, Rgba, RgbaImage};
 use std::error::Error;
 
 /// Represents an image with configurable settings and drawable components.
 pub struct Image {
     config: Option<Config>,
-    image_buffer: Option<ImageBuffer<Rgb<u8>, Vec<u8>>>,
+    image_buffer: Option<ImageBuffer<Rgba<u8>, Vec<u8>>>,
     components: Option<Vec<Component>>,
 }
 
@@ -34,7 +34,7 @@ impl Image {
     /// Returns an error if no configuration is provided.
     pub fn init(&mut self) -> Result<&mut Self, Box<dyn Error>> {
         if let Some(config) = self.config.to_owned() {
-            let mut image_buffer = RgbImage::new(config.width, config.height);
+            let mut image_buffer = RgbaImage::new(config.width, config.height);
 
             for y in 0..config.height {
                 for x in 0..config.width {
