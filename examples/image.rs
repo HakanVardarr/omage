@@ -9,13 +9,8 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     let mut image = Image::new();
 
-    let circle1 = Components::Circle(config.width / 2, config.height / 2, 300, RED);
-    let circle2 = Components::Circle(config.width / 2, config.height / 2, 305, BLACK);
+    let circle = Components::Circle(config.width / 2, config.height / 2, 300, RED);
 
-    image
-        .config(config)
-        .init()?
-        .add_components(vec![circle1, circle2])
-        .draw()?;
+    image.config(config).init()?.add_component(circle).draw()?;
     Ok(())
 }

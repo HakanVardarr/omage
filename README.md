@@ -44,6 +44,10 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
 ```
 
+### Output:
+
+![output](./images/1.png)
+
 ## Examples
 
 ### Drawing Circle
@@ -71,6 +75,10 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 }
 
 ```
+
+### Output:
+
+![output](./images/2.png)
 
 ## License
 
