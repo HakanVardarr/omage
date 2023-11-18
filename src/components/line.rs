@@ -2,16 +2,23 @@ use std::borrow::BorrowMut;
 
 use super::{ComponentTrait, Config, CustomError, Error, ImageBuffer, Rgb};
 
+/// Represents a line component with two endpoints (`(x1, y1)` and `(x2, y2)`) and a specified color.
 #[derive(Clone, Copy)]
 pub struct Line {
+    /// X-coordinate of the first endpoint.
     x1: u32,
+    /// Y-coordinate of the first endpoint.
     y1: u32,
+    /// X-coordinate of the second endpoint.
     x2: u32,
+    /// Y-coordinate of the second endpoint.
     y2: u32,
+    /// Color of the line in RGB format.
     color: Rgb<u8>,
 }
 
 impl Line {
+    /// Creates a new line with the specified parameters.
     pub fn new(x1: u32, y1: u32, x2: u32, y2: u32, color: Rgb<u8>) -> Line {
         Line {
             x1,
@@ -24,6 +31,16 @@ impl Line {
 }
 
 impl ComponentTrait for Line {
+    /// Draws the line on the provided image buffer using the specified configuration.
+    ///
+    /// # Arguments
+    ///
+    /// * `config` - Configuration for the drawing canvas.
+    /// * `buffer` - Image buffer to draw the line on.
+    ///
+    /// # Errors
+    ///
+    /// Returns an error if the line goes beyond the canvas boundaries.
     fn draw(
         &self,
         config: Config,

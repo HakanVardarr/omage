@@ -1,20 +1,36 @@
 use super::{ComponentTrait, Config, CustomError, Error, ImageBuffer, Rgb};
 
+/// Represents a circle component with a specified center (`cx`, `cy`), radius (`r`), and color.
 #[derive(Clone, Copy)]
 pub struct Circle {
+    /// X-coordinate of the circle's center.
     cx: u32,
+    /// Y-coordinate of the circle's center.
     cy: u32,
+    /// Radius of the circle.
     r: u32,
+    /// Color of the circle in RGB format.
     color: Rgb<u8>,
 }
 
 impl Circle {
+    /// Creates a new circle with the specified parameters.
     pub fn new(cx: u32, cy: u32, r: u32, color: Rgb<u8>) -> Self {
         Self { cx, cy, r, color }
     }
 }
 
 impl ComponentTrait for Circle {
+    /// Draws the circle on the provided image buffer using the specified configuration.
+    ///
+    /// # Arguments
+    ///
+    /// * `config` - Configuration for the drawing canvas.
+    /// * `buffer` - Image buffer to draw the circle on.
+    ///
+    /// # Errors
+    ///
+    /// Returns an error if the circle goes beyond the canvas boundaries.
     fn draw(
         &self,
         config: Config,

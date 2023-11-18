@@ -14,7 +14,7 @@ To use `omage` in your Rust project, add the following to your `Cargo.toml` file
 
 ```toml
 [dependencies]
-omage = "0.2.2"
+omage = "0.2.3"
 ```
 
 Then, include it in your Rust code:
