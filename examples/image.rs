@@ -1,5 +1,5 @@
-use oxygen::colors::*;
-use oxygen::{Components, Config, Image};
+use omage::colors::*;
+use omage::{Components, Config, Image};
 
 const HEIGHT: u32 = 1080;
 const WIDTH: u32 = 1920;

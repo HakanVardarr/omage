@@ -1,6 +1,6 @@
-# Oxygen
+# Omage
 
-`oxygen` is a Rust library for image processing. It provides functionality for handling images, drawing basic shapes, and configuring image properties.
+`omage` is a Rust library for image processing. It provides functionality for handling images, drawing basic shapes, and configuring image properties.
 
 ## Features
 
@@ -10,18 +10,18 @@
 
 ## Getting Started
 
-To use `oxygen` in your Rust project, add the following to your `Cargo.toml` file:
+To use `omage` in your Rust project, add the following to your `Cargo.toml` file:
 
 ```toml
 [dependencies]
-oxygen = "0.1"
+omage = "0.1"
 ```
 
 Then, include it in your Rust code:
 
 ```rust
-use oxygen::colors::*;
-use oxygen::{Components, Config, Image};
+use omage::colors::*;
+use omage::{Components, Config, Image};
 
 const HEIGHT: u32 = 1080;
 const WIDTH: u32 = 1920;
@@ -48,13 +48,13 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
 ![output](./images/1.png)
 
-## Exampleshttps://github.com/HakanVardarr/Oxygen
+## Exampleshttps://github.com/HakanVardarr/omage
 
 ### Drawing Circle
 
 ```rust
-use oxygen::colors::*;
-use oxygen::{Components, Config, Image};
+use omage::colors::*;
+use omage::{Components, Config, Image};
 
 const HEIGHT: u32 = 1080;
 const WIDTH: u32 = 1920;
