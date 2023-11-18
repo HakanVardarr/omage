@@ -48,7 +48,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
 ![output](./images/1.png)
 
-## Exampleshttps://github.com/HakanVardarr/omage
+## Examples
 
 ### Drawing Circle
 
