@@ -1,4 +1,3 @@
-#![allow(unused)]
 use rimage::colors::*;
 use rimage::{Components, Config, Image};
 
@@ -12,12 +11,11 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     let circle1 = Components::Circle(config.width / 2, config.height / 2, 300, RED);
     let circle2 = Components::Circle(config.width / 2, config.height / 2, 305, BLACK);
-    let rectangle1 = Components::Rectangle(20, 20, 100, 200, PURPLE);
 
     image
         .config(config)
         .init()?
-        .add_components(vec![circle1, circle2, rectangle1])
+        .add_components(vec![circle1, circle2])
         .draw()?;
     Ok(())
 }

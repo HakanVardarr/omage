@@ -2,6 +2,13 @@
 name = "rimage"
 version = "0.1.0"
 edition = "2021"
+authors = ["Hakan Vardar"]
+description = "`rimage` is a Rust library for image processing. It provides functionality for handling images, drawing basic shapes, and configuring image properties."
+license = "MIT"
+repository = "https://github.com/HakanVardarr/sudoku_solver"
+
+[lib]
+path = "src/lib.rs"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
