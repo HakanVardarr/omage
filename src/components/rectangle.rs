@@ -1,5 +1,6 @@
-use super::{Component, Config, CustomError, Error, ImageBuffer, Rgb};
+use super::{ComponentTrait, Config, CustomError, Error, ImageBuffer, Rgb};
 
+#[derive(Clone, Copy)]
 pub struct Rectangle {
     h: u32,
     w: u32,
@@ -14,7 +15,7 @@ impl Rectangle {
     }
 }
 
-impl Component for Rectangle {
+impl ComponentTrait for Rectangle {
     fn draw(
         &self,
         config: Config,

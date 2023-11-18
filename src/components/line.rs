@@ -1,7 +1,8 @@
 use std::borrow::BorrowMut;
 
-use super::{Component, Config, CustomError, Error, ImageBuffer, Rgb};
+use super::{ComponentTrait, Config, CustomError, Error, ImageBuffer, Rgb};
 
+#[derive(Clone, Copy)]
 pub struct Line {
     x1: u32,
     y1: u32,
@@ -22,7 +23,7 @@ impl Line {
     }
 }
 
-impl Component for Line {
+impl ComponentTrait for Line {
     fn draw(
         &self,
         config: Config,

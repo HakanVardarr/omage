@@ -1,5 +1,6 @@
-use super::{Component, Config, CustomError, Error, ImageBuffer, Rgb};
+use super::{ComponentTrait, Config, CustomError, Error, ImageBuffer, Rgb};
 
+#[derive(Clone, Copy)]
 pub struct Circle {
     cx: u32,
     cy: u32,
@@ -13,7 +14,7 @@ impl Circle {
     }
 }
 
-impl Component for Circle {
+impl ComponentTrait for Circle {
     fn draw(
         &self,
         config: Config,
@@ -24,7 +25,7 @@ impl Component for Circle {
         let y1 = self.cy - self.r;
         let y2 = self.cy + self.r;
 
-        if y2 > config.height || x2 > config.height {
+        if y2 > config.height || x2 > config.width {
             return Err(Box::new(CustomError::OutOfCanvas));
         }
 
@@ -32,6 +33,7 @@ impl Component for Circle {
             for x in x1..x2 {
                 let dx: i32 = x as i32 - self.cx as i32;
                 let dy: i32 = y as i32 - self.cy as i32;
+
                 if dx * dx + dy * dy < self.r as i32 * self.r as i32 {
                     buffer.put_pixel(x, y, self.color);
                 }
