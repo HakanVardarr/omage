@@ -1,6 +1,6 @@
-# rimage
+# Oxygen
 
-`rimage` is a Rust library for image processing. It provides functionality for handling images, drawing basic shapes, and configuring image properties.
+`oxygen` is a Rust library for image processing. It provides functionality for handling images, drawing basic shapes, and configuring image properties.
 
 ## Features
 
@@ -10,18 +10,18 @@
 
 ## Getting Started
 
-To use `rimage` in your Rust project, add the following to your `Cargo.toml` file:
+To use `oxygen` in your Rust project, add the following to your `Cargo.toml` file:
 
 ```toml
 [dependencies]
-rimage = "0.1"
+oxygen = "0.1"
 ```
 
 Then, include it in your Rust code:
 
 ```rust
-use rimage::colors::*;
-use rimage::{Components, Config, Image};
+use oxygen::colors::*;
+use oxygen::{Components, Config, Image};
 
 const HEIGHT: u32 = 1080;
 const WIDTH: u32 = 1920;
@@ -48,13 +48,13 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
 ![output](./images/1.png)
 
-## Examples
+## Exampleshttps://github.com/HakanVardarr/Oxygen
 
 ### Drawing Circle
 
 ```rust
-use rimage::colors::*;
-use rimage::{Components, Config, Image};
+use oxygen::colors::*;
+use oxygen::{Components, Config, Image};
 
 const HEIGHT: u32 = 1080;
 const WIDTH: u32 = 1920;

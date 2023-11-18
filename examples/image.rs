@@ -1,5 +1,5 @@
-use rimage::colors::*;
-use rimage::{Components, Config, Image};
+use oxygen::colors::*;
+use oxygen::{Components, Config, Image};
 
 const HEIGHT: u32 = 1080;
 const WIDTH: u32 = 1920;
