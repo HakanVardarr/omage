@@ -5,13 +5,13 @@ use image::{ImageBuffer, Rgba, RgbaImage};
 use std::error::Error;
 
 /// Represents an image with configurable settings and drawable components.
-pub struct Image {
+pub struct Image<'a> {
     config: Option<Config>,
     image_buffer: Option<ImageBuffer<Rgba<u8>, Vec<u8>>>,
-    components: Option<Vec<Component>>,
+    components: Option<Vec<&'a Component>>,
 }
 
-impl Image {
+impl<'a> Image<'a> {
     /// Creates a new Image instance with default values.
     pub fn new() -> Self {
         Self {
@@ -61,7 +61,7 @@ impl Image {
     }
 
     /// Adds a single component to the image.
-    pub fn add_component(&mut self, component: Component) -> &mut Self {
+    pub fn add_component(&mut self, component: &'a Component) -> &mut Self {
         if let Some(components) = &mut self.components {
             components.push(component);
         } else {
@@ -72,7 +72,7 @@ impl Image {
     }
 
     /// Adds multiple components to the image.
-    pub fn add_components(&mut self, components: Vec<Component>) -> &mut Self {
+    pub fn add_components(&mut self, components: Vec<&'a Component>) -> &mut Self {
         if let Some(components_list) = &mut self.components {
             components_list.extend(components);
         } else {

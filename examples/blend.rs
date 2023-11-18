@@ -27,7 +27,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     image
         .config(config)
         .init()?
-        .add_components(vec![circle1, circle2, rectangle])
+        .add_components(vec![&circle1, &circle2, &rectangle])
         .draw()?;
     Ok(())
 }

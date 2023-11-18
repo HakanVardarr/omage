@@ -11,6 +11,6 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     let circle = Components::Circle(config.width / 2, config.height / 2, 300, RED);
 
-    image.config(config).init()?.add_component(circle).draw()?;
+    image.config(config).init()?.add_component(&circle).draw()?;
     Ok(())
 }

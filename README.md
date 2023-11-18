@@ -18,7 +18,7 @@ To use `omage` in your Rust project, add the following to your `Cargo.toml` file
 
 ```toml
 [dependencies]
-omage = "0.2.5"
+omage = "0.2.6"
 ```
 
 Then, include it in your Rust code:
@@ -41,7 +41,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     image
         .config(config)
         .init()?
-        .add_components(vec![circle1, circle2])
+        .add_components(vec![&circle1, &circle2])
         .draw()?;
     Ok(())
 }
@@ -73,7 +73,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     image
         .config(config)
         .init()?
-        .add_component(circle)
+        .add_component(&circle)
         .draw()?;
     Ok(())
 }
@@ -116,7 +116,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     image
         .config(config)
         .init()?
-        .add_components(vec![circle1, circle2, rectangle])
+        .add_components(vec![&circle1, &circle2, &rectangle])
         .draw()?;
     Ok(())
 }
