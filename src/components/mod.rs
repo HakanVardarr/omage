@@ -1,16 +1,18 @@
-#![allow(unused, non_snake_case)]
+#![allow(non_snake_case)]
 
 use crate::config::Config;
 use crate::error::CustomError;
 use circle::Circle;
-use image::{ImageBuffer, Rgba, RgbaImage};
+use image::{ImageBuffer, Rgba};
 use line::Line;
 use rectangle::Rectangle;
 use std::error::Error;
+use text::Text;
 
 mod circle;
 mod line;
 mod rectangle;
+mod text;
 
 /// A trait for drawing components on an image buffer.
 pub trait ComponentTrait {
@@ -70,6 +72,19 @@ pub enum Component {
         /// Color of the line in Rgba format.
         color: Rgba<u8>,
     },
+    /// Represents a text component.
+    Text {
+        /// X-coordinate of the top-left corner of the text.
+        x: u32,
+        /// Y-coordinate of the top-left corner of the text.
+        y: u32,
+        /// Size of the text.
+        size: u32,
+        /// Text field of the text.
+        text: &'static str,
+        /// Color of the rectangle in Rgba format.
+        color: Rgba<u8>,
+    },
 }
 
 /// A struct providing convenience methods for creating different types of components.
@@ -93,6 +108,17 @@ impl Components {
             y1,
             x2,
             y2,
+            color,
+        }
+    }
+
+    /// Creates a new text component.
+    pub fn Text(x: u32, y: u32, size: u32, text: &'static str, color: Rgba<u8>) -> Component {
+        Component::Text {
+            x,
+            y,
+            size,
+            text,
             color,
         }
     }
@@ -122,6 +148,16 @@ impl ComponentTrait for Component {
             } => {
                 let line = Line::new(x1, y1, x2, y2, color);
                 line.draw(config, buffer)
+            }
+            Component::Text {
+                x,
+                y,
+                size,
+                text,
+                color,
+            } => {
+                let text = Text::new(x, y, size, text, color);
+                text.draw(config, buffer)
             }
         }
     }

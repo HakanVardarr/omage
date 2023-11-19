@@ -1,7 +1,8 @@
 //! # omage
 //!
 //! `omage` is a Rust crate for creating and manipulating images with various components.
-/// Colors module providing constants for common RGB colors in the `image` crate's `Rgb` format.
+
+/// Colors module providing constants for common RGBA colors in the `image` crate's `Rgba` format.
 pub mod colors;
 mod components;
 mod config;

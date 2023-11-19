@@ -1,6 +1,5 @@
-use image::Pixel;
-
 use super::{ComponentTrait, Config, CustomError, Error, ImageBuffer, Rgba};
+use image::Pixel;
 
 /// Represents a circle component with a specified center (`cx`, `cy`), radius (`r`), and color.
 #[derive(Clone, Copy)]
@@ -38,12 +37,12 @@ impl ComponentTrait for Circle {
         config: Config,
         buffer: &mut ImageBuffer<Rgba<u8>, Vec<u8>>,
     ) -> Result<(), Box<dyn Error>> {
-        let x1 = self.cx - self.r;
-        let x2 = self.cx + self.r;
-        let y1 = self.cy - self.r;
-        let y2 = self.cy + self.r;
+        let x1 = self.cx as i32 - self.r as i32;
+        let x2 = self.cx as i32 + self.r as i32;
+        let y1 = self.cy as i32 - self.r as i32;
+        let y2 = self.cy as i32 + self.r as i32;
 
-        if y2 > config.height || x2 > config.width {
+        if y2 > config.height as i32 || x2 > config.width as i32 || x1 < 0 || y1 < 0 {
             return Err(Box::new(CustomError::OutOfCanvas));
         }
 
@@ -53,7 +52,7 @@ impl ComponentTrait for Circle {
                 let dy: i32 = y as i32 - self.cy as i32;
 
                 if dx * dx + dy * dy < self.r as i32 * self.r as i32 {
-                    buffer.get_pixel_mut(x, y).blend(&self.color);
+                    buffer.get_pixel_mut(x as u32, y as u32).blend(&self.color);
                 }
             }
         }
