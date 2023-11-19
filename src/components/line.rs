@@ -1,8 +1,5 @@
-use std::borrow::BorrowMut;
-
+use super::{ComponentTrait, Config, Error, ImageBuffer, Rgba};
 use image::Pixel;
-
-use super::{ComponentTrait, Config, CustomError, Error, ImageBuffer, Rgba};
 
 /// Represents a line component with two endpoints (`(x1, y1)` and `(x2, y2)`) and a specified color.
 #[derive(Clone, Copy)]

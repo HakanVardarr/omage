@@ -1,9 +1,9 @@
-#![allow(unused, non_snake_case)]
+#![allow(non_snake_case)]
 
 use crate::config::Config;
 use crate::error::CustomError;
 use circle::Circle;
-use image::{ImageBuffer, Rgba, RgbaImage};
+use image::{ImageBuffer, Rgba};
 use line::Line;
 use rectangle::Rectangle;
 use std::error::Error;
@@ -111,13 +111,14 @@ impl Components {
             color,
         }
     }
+
+    /// Creates a new text component.
     pub fn Text(x: u32, y: u32, size: u32, text: &'static str, color: Rgba<u8>) -> Component {
         Component::Text {
             x,
             y,
             size,
             text,
-
             color,
         }
     }
@@ -153,7 +154,6 @@ impl ComponentTrait for Component {
                 y,
                 size,
                 text,
-
                 color,
             } => {
                 let text = Text::new(x, y, size, text, color);

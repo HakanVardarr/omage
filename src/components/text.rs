@@ -1,12 +1,11 @@
 use crate::error::CustomError;
 
 use super::ComponentTrait;
-use image::{DynamicImage, EncodableLayout, ImageBuffer, Pixel, Rgba};
+use image::{ImageBuffer, Pixel, Rgba};
 use rusttype::{point, Font, Scale};
 use std::io::Read;
 
-const TEXT: &str = "This is ab_glyph rendered into a png!";
-
+/// Represents a text component with a specified position, size, content, and color.
 pub struct Text {
     /// X-coordinate of the top-left corner of the text.
     x: u32,
@@ -14,13 +13,14 @@ pub struct Text {
     y: u32,
     /// Size of the text.
     size: u32,
-    /// Text field of the text.
+    /// Text content of the text.
     text: &'static str,
-    /// Color of the rectangle in Rgba format.
+    /// Color of the text in Rgba format.
     color: Rgba<u8>,
 }
 
 impl Text {
+    /// Creates a new text component with the specified parameters.
     pub fn new(x: u32, y: u32, size: u32, text: &'static str, color: Rgba<u8>) -> Self {
         Self {
             x,
@@ -33,6 +33,16 @@ impl Text {
 }
 
 impl ComponentTrait for Text {
+    /// Draws the text on the provided image buffer using the specified configuration.
+    ///
+    /// # Arguments
+    ///
+    /// * `config` - Configuration for the drawing canvas.
+    /// * `buffer` - Image buffer to draw the text on.
+    ///
+    /// # Errors
+    ///
+    /// Returns an error if there is an issue with the font or drawing the text.
     fn draw(
         &self,
         config: crate::Config,
@@ -41,7 +51,7 @@ impl ComponentTrait for Text {
         if let Some(font_path) = config.font_path {
             let mut fonts = std::fs::File::open(font_path)?;
             let mut bytes = Vec::new();
-            fonts.read_to_end(&mut bytes);
+            fonts.read_to_end(&mut bytes)?;
             let font = Font::try_from_vec(bytes).expect("Error Constructing Font");
             let scale = Scale::uniform(self.size as f32);
             let v_metrics = font.v_metrics(scale);
