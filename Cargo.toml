@@ -15,9 +15,3 @@ path = "src/lib.rs"
 [dependencies]
 rusttype = "0.9.3"
 image = "0.24.5"
-
-[profile.release]
-strip = true
-opt-level = "s"
-lto = true
-codegen-units = 1
