@@ -1,6 +1,5 @@
-use image::Pixel;
-
 use super::{ComponentTrait, Config, CustomError, Error, ImageBuffer, Rgba};
+use image::Pixel;
 
 /// Represents a circle component with a specified center (`cx`, `cy`), radius (`r`), and color.
 #[derive(Clone, Copy)]

@@ -9,6 +9,8 @@ pub enum CustomError {
     NoConfigProvided,
     /// Error indicating that there is no component to draw.
     ThereIsNoComponent,
+    /// Error indicating that no font is provided.
+    NoFontProvided,
 }
 
 impl std::fmt::Display for CustomError {
@@ -23,6 +25,9 @@ impl std::fmt::Display for CustomError {
             }
             &CustomError::ThereIsNoComponent => {
                 write!(f, "ERROR: There is no component")
+            }
+            &CustomError::NoFontProvided => {
+                write!(f, "ERROR: No font provided")
             }
         }
     }

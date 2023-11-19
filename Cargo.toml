@@ -1,6 +1,6 @@
 [package]
 name = "omage"
-version = "0.2.6"
+version = "0.3.0"
 edition = "2021"
 authors = ["Hakan Vardar"]
 description = "`omage` is a Rust library for image processing. It provides functionality for handling images, drawing basic shapes, and configuring image properties."
@@ -13,4 +13,5 @@ path = "src/lib.rs"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+rusttype = "0.9.3"
 image = "0.24.5"

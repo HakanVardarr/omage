@@ -13,6 +13,7 @@ pub struct Config {
     pub border: Option<Rgba<u8>>,
     /// Path to the canvas image.
     pub path: &'static str,
+    pub font_path: Option<&'static str>,
 }
 
 impl Config {
@@ -31,6 +32,7 @@ impl Config {
         color: Rgba<u8>,
         border: Option<Rgba<u8>>,
         path: &'static str,
+        font_path: Option<&'static str>,
     ) -> Self {
         Self {
             width,
@@ -38,6 +40,7 @@ impl Config {
             color,
             border,
             path,
+            font_path,
         }
     }
 }
