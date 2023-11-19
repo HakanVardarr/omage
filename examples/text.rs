@@ -9,7 +9,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         WIDTH,
         HEIGHT,
         Rgba([255, 255, 255, 0]),
-        None,
+        Some(WHITE),
         "output.png",
         Some("./fonts/Roboto-Medium.ttf"),
     );
