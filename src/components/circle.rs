@@ -58,6 +58,7 @@ impl ComponentTrait for Circle {
                         let sy = y as f32 + pad * (1 + ay) as f32;
                         let dx = sx - (self.cx as f32 + 0.5);
                         let dy = sy - (self.cy as f32 + 0.5);
+
                         if dx * dx + dy * dy <= self.r as f32 * self.r as f32 {
                             count += 1
                         }
