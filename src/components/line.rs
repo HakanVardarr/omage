@@ -30,76 +30,119 @@ impl Line {
 }
 
 impl ComponentTrait for Line {
-    /// Draws the line on the provided image buffer using the specified configuration.
-    ///
-    /// # Arguments
-    ///
-    /// * `config` - Configuration for the drawing canvas.
-    /// * `buffer` - Image buffer to draw the line on.
-    ///
-    /// # Errors
-    ///
-    /// Returns an error if the line goes beyond the canvas boundaries.
     fn draw(
         &self,
-        config: Config,
+        _config: Config,
         buffer: &mut ImageBuffer<Rgba<u8>, Vec<u8>>,
     ) -> Result<(), Box<dyn Error>> {
-        let mut x1 = self.x1.clone();
-        let mut x2 = self.x2.clone();
-        let mut y1 = self.y1.clone();
-        let mut y2 = self.y2.clone();
+        let x0 = self.x1 as i32;
+        let y0 = self.y1 as i32;
+        let x1 = self.x2 as i32;
+        let y1 = self.y2 as i32;
 
-        let dx: f32 = self.x2 as f32 - self.x1 as f32;
-        let dy: f32 = self.y2 as f32 - self.y1 as f32;
+        let steep = absolute(y1 as f32 - y0 as f32) > absolute(x1 as f32 - x0 as f32);
 
-        if dx != 0.0 {
-            let k: f32 = dy / dx;
-            let c: f32 = self.y1 as f32 - (k * self.x1 as f32);
+        let (mut x0, mut y0, mut x1, mut y1) = if steep {
+            (y0, x0, y1, x1)
+        } else {
+            (x0, y0, x1, y1)
+        };
 
-            if x2 < x1 {
-                x1 = self.x2;
-                x2 = self.x1;
-            }
+        if x0 > x1 {
+            swap(&mut x0, &mut x1);
+            swap(&mut y0, &mut y1);
+        }
 
-            if k == 0.0 {
-                for x in x1..x2 {
-                    buffer.get_pixel_mut(x, y1).blend(&self.color)
-                }
-            } else {
-                for x in x1..x2 {
-                    let by1 = k * x as f32 + c;
-                    let by2 = k * (x + 3) as f32 + c;
+        let dx = x1 - x0;
+        let dy = y1 - y0;
+        let gradient = dy as f32 / dx as f32;
 
-                    if by1 > by2 {
-                        for y in by2 as u32..by1 as u32 {
-                            if x < config.width && y < config.height {
-                                buffer.get_pixel_mut(x, y).blend(&self.color)
-                            }
-                        }
-                    }
-                    if by2 > by1 {
-                        for y in by1 as u32..by2 as u32 {
-                            if x < config.width && y < config.height {
-                                buffer.get_pixel_mut(x, y).blend(&self.color)
-                            }
-                        }
-                    }
-                }
+        let xend = round_number(x0 as f32);
+        let yend = y0 as f32 + gradient * (xend as f32 - x0 as f32);
+        let xgap = rfpart(x0 as f32 + 0.5);
+        let xpxl1 = xend; // this will be used in the main loop
+        let ypxl1 = ipart(yend);
+        draw_pixel(buffer, xpxl1, ypxl1, rfpart(yend) * xgap, &self.color);
+        draw_pixel(buffer, xpxl1, ypxl1 + 1, fpart(yend) * xgap, &self.color);
+        let mut intery = yend + gradient; // first y-intersection for the main loop
+
+        // handle second endpoint
+        let xend = round_number(x1 as f32);
+        let yend = y1 as f32 + gradient * (xend as f32 - x1 as f32);
+        let xgap = fpart(x1 as f32 + 0.5);
+        let xpxl2 = xend; // this will be used in the main loop
+        let ypxl2 = ipart(yend);
+        draw_pixel(buffer, xpxl2, ypxl2, rfpart(yend) * xgap, &self.color);
+        draw_pixel(buffer, xpxl2, ypxl2 + 1, fpart(yend) * xgap, &self.color);
+
+        // main loop
+        if steep {
+            for x in xpxl1 + 1..xpxl2 {
+                draw_pixel(buffer, ipart(intery), x, rfpart(intery), &self.color);
+                draw_pixel(buffer, ipart(intery) + 1, x, fpart(intery), &self.color);
+                intery += gradient;
             }
         } else {
-            if y2 < y1 {
-                y1 = self.y2;
-                y2 = self.y1;
-            }
-
-            for y in y1..y2 {
-                if x1 < config.width && y < config.height {
-                    buffer.get_pixel_mut(x1, y).blend(&self.color)
-                }
+            for x in xpxl1 + 1..xpxl2 {
+                draw_pixel(buffer, x, ipart(intery), rfpart(intery), &self.color);
+                draw_pixel(buffer, x, ipart(intery) + 1, fpart(intery), &self.color);
+                intery += gradient;
             }
         }
 
         Ok(())
     }
+}
+
+fn draw_pixel(
+    buffer: &mut ImageBuffer<Rgba<u8>, Vec<u8>>,
+    x: u32,
+    y: u32,
+    brightness: f32,
+    color: &Rgba<u8>,
+) {
+    let new_color = Rgba([
+        color[0],
+        color[1],
+        color[2],
+        (color[3] as f32 * brightness) as u8,
+    ]);
+
+    if x < buffer.width() && y < buffer.height() {
+        buffer.get_pixel_mut(x, y).blend(&new_color);
+    }
+}
+
+fn swap(a: &mut i32, b: &mut i32) {
+    let temp = *a;
+    *a = *b;
+    *b = temp;
+}
+
+fn absolute(x: f32) -> f32 {
+    if x < 0.0 {
+        -x
+    } else {
+        x
+    }
+}
+
+fn ipart(x: f32) -> u32 {
+    x as u32
+}
+
+fn round_number(x: f32) -> u32 {
+    x as u32
+}
+
+fn fpart(x: f32) -> f32 {
+    if x > 0.0 {
+        x - ipart(x) as f32
+    } else {
+        x - (ipart(x) + 1) as f32
+    }
+}
+
+fn rfpart(x: f32) -> f32 {
+    1.0 - fpart(x)
 }
