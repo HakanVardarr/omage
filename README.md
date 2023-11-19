@@ -32,7 +32,7 @@ const HEIGHT: u32 = 1080;
 const WIDTH: u32 = 1920;
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
-    let config = Config::new(WIDTH, HEIGHT, WHITE, Some(BLACK), "output.png"), None;
+    let config = Config::new(WIDTH, HEIGHT, WHITE, Some(BLACK), "output.png", None);
 
     let mut image = Image::new();
 
