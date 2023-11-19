@@ -5,6 +5,53 @@ use image::{ImageBuffer, Rgba, RgbaImage};
 use std::error::Error;
 
 /// Represents an image with configurable settings and drawable components.
+///
+/// The `Image` struct combines configuration settings, an image buffer, and a collection of drawable
+/// components to represent a 2D canvas. It allows for easy configuration and drawing of various graphical
+/// elements on the canvas, such as circles, rectangles, lines, and text.
+///
+/// # Examples
+///
+/// ```
+/// use omage::{Image, Config, Components, Rgba};
+///
+/// // Create a new image with a specified configuration
+/// let config = Config::new(800, 600, Rgba([255, 255, 255, 255]), Some(Rgba([0, 0, 0, 255])), "path/to/canvas/image.png", Some("path/to/font.ttf"));
+///
+/// let image = Image::new_with_config(config);
+///
+/// // Add drawable components to the image
+/// let components = vec![
+///     Components::Circle(50, 50, 30, Rgba([255, 0, 0, 255])),
+///     Components::Rectangle(40, 60, 10, 20, Rgba([0, 255, 0, 255])),
+///     Components::Line(10, 10, 80, 80, Rgba([0, 0, 255, 255])),
+///     Components::Text(30, 40, 16, "Hello, Rust!", Rgba([255, 255, 255, 255]), Some((Rgba([0, 0, 0, 255]), 2))),
+/// ];
+///
+/// image.add_components(components);
+/// ```
+///
+/// # Fields
+///
+/// - `config`: Optional configuration settings for the image canvas.
+/// - `image_buffer`: Optional image buffer containing pixel data.
+/// - `components`: Optional collection of drawable components to be rendered on the image.
+///
+/// # Methods
+///
+/// - `new`: Creates a new `Image` instance with default settings or a specified configuration.
+/// - `config`: Adds config to `Image`
+/// - `init` : Initializes the `Image`
+/// - `add_component`: Adds a single drawable component to the image.
+/// - `add_components`: Adds a collection of drawable components to the image.
+/// - `draw`: Draws the configured image with its drawable components.
+///
+/// # Note
+///
+/// The `Image` struct provides a convenient way to configure and visualize graphical components
+/// on a canvas. It encapsulates the necessary logic for image creation and component rendering.
+///
+/// ```
 pub struct Image<'a> {
     config: Option<Config>,
     image_buffer: Option<ImageBuffer<Rgba<u8>, Vec<u8>>>,

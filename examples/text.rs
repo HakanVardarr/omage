@@ -26,7 +26,8 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         config.height / 2 - 25,
         50,
         text,
-        Rgba([0, 255, 0, 200]),
+        Rgba([255, 255, 255, 255]),
+        Some((BLACK, 3)),
     );
 
     image

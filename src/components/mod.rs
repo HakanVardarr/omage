@@ -84,24 +84,99 @@ pub enum Component {
         text: &'static str,
         /// Color of the rectangle in Rgba format.
         color: Rgba<u8>,
+        /// Border.
+        border: Option<(Rgba<u8>, u32)>,
     },
 }
 
 /// A struct providing convenience methods for creating different types of components.
+///
+/// The `Components` struct serves as a utility for easily generating instances of various graphical
+/// components in a 2D space. It offers methods for creating circles, rectangles, lines, and text
+/// components with specified attributes.
+///
+/// # Examples
+///
+/// ```
+/// use omage::{Components, Rgba};
+///
+/// // Create a new circle component
+/// let circle = Components::Circle(50, 50, 30, Rgba([255, 0, 0, 255]));
+///
+/// // Create a new rectangle component
+/// let rectangle = Components::Rectangle(40, 60, 10, 20, Rgba([0, 255, 0, 255]));
+///
+/// // Create a new line component
+/// let line = Components::Line(10, 10, 80, 80, Rgba([0, 0, 255, 255]));
+///
+/// // Create a new text component
+/// let text = Components::Text(30, 40, 16, "Hello, Rust!", Rgba([255, 255, 255, 255]), Some((Rgba([0, 0, 0, 255]), 2)));
+/// ```
+///
+/// # Methods
+///
+/// The `Components` struct provides the following methods:
+///
+/// - `Circle`: Creates a new circle component with specified attributes.
+/// - `Rectangle`: Creates a new rectangle component with specified attributes.
+/// - `Line`: Creates a new line component with specified attributes.
+/// - `Text`: Creates a new text component with specified attributes, including an optional border.
+///
+/// # Note
+///
+/// The `Components` struct is designed to simplify the process of creating graphical components
+/// for use in a 2D drawing context. It encapsulates the logic for constructing different types
+/// of components with ease.
+/// ```
 pub struct Components;
 
 impl Components {
     /// Creates a new circle component.
+    ///
+    /// # Parameters
+    ///
+    /// - `cx`: X-coordinate of the center of the circle.
+    /// - `cy`: Y-coordinate of the center of the circle.
+    /// - `r`: Radius of the circle.
+    /// - `color`: RGBA color of the circle.
+    ///
+    /// # Returns
+    ///
+    /// A `Component::Circle` instance.
     pub fn Circle(cx: u32, cy: u32, r: u32, color: Rgba<u8>) -> Component {
         Component::Circle { cx, cy, r, color }
     }
 
     /// Creates a new rectangle component.
+    ///
+    /// # Parameters
+    ///
+    /// - `h`: Height of the rectangle.
+    /// - `w`: Width of the rectangle.
+    /// - `x`: X-coordinate of the top-left corner of the rectangle.
+    /// - `y`: Y-coordinate of the top-left corner of the rectangle.
+    /// - `color`: RGBA color of the rectangle.
+    ///
+    /// # Returns
+    ///
+    /// A `Component::Rectangle` instance.
     pub fn Rectangle(h: u32, w: u32, x: u32, y: u32, color: Rgba<u8>) -> Component {
         Component::Rectangle { h, w, x, y, color }
     }
 
     /// Creates a new line component.
+    ///
+    /// # Parameters
+    ///
+    /// - `x1`: X-coordinate of the starting point of the line.
+    /// - `y1`: Y-coordinate of the starting point of the line.
+    /// - `x2`: X-coordinate of the ending point of the line.
+    /// - `y2`: Y-coordinate of the ending point of the line.
+    /// - `color`: RGBA color of the line.
+    ///
+    /// # Returns
+    ///
+    /// A `Component::Line` instance.
     pub fn Line(x1: u32, y1: u32, x2: u32, y2: u32, color: Rgba<u8>) -> Component {
         Component::Line {
             x1,
@@ -113,13 +188,34 @@ impl Components {
     }
 
     /// Creates a new text component.
-    pub fn Text(x: u32, y: u32, size: u32, text: &'static str, color: Rgba<u8>) -> Component {
+    ///
+    /// # Parameters
+    ///
+    /// - `x`: X-coordinate of the text.
+    /// - `y`: Y-coordinate of the text.
+    /// - `size`: Font size of the text.
+    /// - `text`: The actual text content.
+    /// - `color`: RGBA color of the text.
+    /// - `border`: Optional border color and thickness as a tuple.
+    ///
+    /// # Returns
+    ///
+    /// A `Component::Text` instance.
+    pub fn Text(
+        x: u32,
+        y: u32,
+        size: u32,
+        text: &'static str,
+        color: Rgba<u8>,
+        border: Option<(Rgba<u8>, u32)>,
+    ) -> Component {
         Component::Text {
             x,
             y,
             size,
             text,
             color,
+            border,
         }
     }
 }
@@ -155,8 +251,9 @@ impl ComponentTrait for Component {
                 size,
                 text,
                 color,
+                border,
             } => {
-                let text = Text::new(x, y, size, text, color);
+                let text = Text::new(x, y, size, text, color, border);
                 text.draw(config, buffer)
             }
         }
