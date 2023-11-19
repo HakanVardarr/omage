@@ -1,6 +1,6 @@
 ![logo](./images/4.png)
 
-### (Made with romage)
+### (Made with omage)
 
 [![Crates.io](https://img.shields.io/crates/v/omage?style=flat-square)](https://crates.io/crates/omage)
 [![Crates.io](https://img.shields.io/crates/d/omage?style=flat-square)](https://crates.io/crates/omage)
