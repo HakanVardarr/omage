@@ -1,4 +1,4 @@
-![logo](./images/logo.png)
+![logo](./images/4.png)
 
 [![Crates.io](https://img.shields.io/crates/v/omage?style=flat-square)](https://crates.io/crates/omage)
 [![Crates.io](https://img.shields.io/crates/d/omage?style=flat-square)](https://crates.io/crates/omage)
@@ -19,7 +19,7 @@ To use `omage` in your Rust project, add the following to your `Cargo.toml` file
 
 ```toml
 [dependencies]
-omage = "0.3.0"
+omage = "0.3.1"
 ```
 
 Then, include it in your Rust code:
@@ -138,7 +138,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         WIDTH,
         HEIGHT,
         Rgba([255, 255, 255, 0]),
-        None,
+        Some(WHITE),
         "output.png",
         Some("./fonts/Roboto-Medium.ttf"),
     );
@@ -155,7 +155,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         config.height / 2 - 25,
         50,
         text,
-        WHITE,
+        Rgba([0, 255, 0, 200]),
     );
 
     image
