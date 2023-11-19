@@ -20,7 +20,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     let circle2 = Components::Circle(75, 55, 30, Rgba([0, 255, 0, 200]));
     let circle3 = Components::Circle(65, 35, 30, Rgba([0, 0, 255, 200]));
 
-    let text = "ROMAGE";
+    let text = "OMAGE";
     let text = Components::Text(
         config.width / 2 - 40,
         config.height / 2 - 25,
