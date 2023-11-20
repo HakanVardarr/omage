@@ -199,7 +199,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
 ![output](./images/5.png)
 
-# Line
+### Line
 
 ```rust
 use omage::colors::*;
